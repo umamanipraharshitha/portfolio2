@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #020b10;
+}
+
+/* HERO WRAPPER */
+.hero-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40px;
+}
+
+/* SPLIT BACKGROUND */
+.bg-left {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><path fill='%23092126' d='M0,0 C350,150 350,650 0,800 Z'/></svg>")
+    no-repeat left center;
+  background-size: cover;
+}
+
+.bg-right {
+  position: absolute;
+  inset: 0;
+  z-index: -4;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><path fill='%230e0e0e' d='M800,0 C450,150 450,650 800,800 Z'/></svg>")
+    no-repeat right center;
+  background-size: cover;
+}
+
+/* BOTTOM WAVE */
+.hero-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  z-index: -2;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23092126' d='M0,224 C300,280 600,280 900,224 C1200,168 1440,192 1440,320 L0,320 Z'/></svg>")
+    no-repeat bottom;
+  background-size: cover;
+}
+
+/* HERO CONTENT */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  width: 100%;
+  max-width: 1150px;
+  padding: 0 40px;
+}
+
+/* LEFT SIDE */
+.hero-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  color: #ffffff;
+}
+
+.hero-title {
+  font-weight: 700;
+  color: #f1ffff;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  line-height: 1.1;
+}
+
+.hero-title .name {
+  color: #91faff;
+}
+
+.typing-role {
+  font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 1.6rem;
+  color: #91faff;
+  font-weight: 600;
+  height: 36px;
+}
+
+.cursor {
+  width: 4px;
+  height: 28px;
+  background: #91faff;
+  display: inline-block;
+  margin-left: 4px;
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* DESCRIPTION */
+.hero-desc {
+  max-width: 500px;
+  color: #b8f0f7;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+
+/* BUTTONS */
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.btn-primary,
+.btn-outline {
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00eaff, #00bcd1);
+  color: #00373c;
+  box-shadow: 0 0 22px #00eaff60;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+}
+
+.btn-outline {
+  border: 2px solid #00eaff;
+  color: #00eaff;
+}
+
+.btn-outline:hover {
+  background: #00eaff10;
+}
+
+/* RIGHT IMAGE */
+.hero-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.hero-visual img {
+  width: 88%;
+  max-width: 480px;
+  object-fit: contain;
+  animation: floaty 4s ease-in-out infinite;
+  position: relative;
+  filter: drop-shadow(0 0 35px #0c252855);
+}
+
+/* Floating animation */
+@keyframes floaty {
+  0% {
+    transform: translateY(10px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+}
+
+/* Glowing shadow under laptop */
+.hero-visual::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 20px;
+  background: rgba(112, 176, 182, 0.7);
+  filter: blur(25px);
+  border-radius: 50%;
+  z-index: -1;
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translateX(-50%) scale(1.15);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column-reverse;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .hero-left {
+    align-items: center;
+  }
+
+  .hero-visual img {
+    width: 70%;
+    max-width: 350px;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+}
+/* ===================== */
+/* ===== LIGHT MODE ==== */
+/* ===================== */
+
+[data-theme="light"] body {
+  background: #f7fbfd;
+}
+
+/* HERO BACKGROUNDS */
+[data-theme="light"] .bg-left {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><path fill='%23e6f7fa' d='M0,0 C350,150 350,650 0,800 Z'/></svg>")
+    no-repeat left center;
+  background-size: cover;
+}
+
+[data-theme="light"] .bg-right {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><path fill='%23ffffff' d='M800,0 C450,150 450,650 800,800 Z'/></svg>")
+    no-repeat right center;
+  background-size: cover;
+}
+
+/* BOTTOM WAVE */
+[data-theme="light"] .hero-wave {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23e6f7fa' d='M0,224 C300,280 600,280 900,224 C1200,168 1440,192 1440,320 L0,320 Z'/></svg>")
+    no-repeat bottom;
+  background-size: cover;
+}
+
+/* HERO TEXT */
+[data-theme="light"] .hero-left {
+  color: #0c1012;
+}
+
+[data-theme="light"] .hero-title {
+  color: #0c1012;
+}
+
+[data-theme="light"] .hero-title .name {
+  color: #00a8bd;
+}
+
+[data-theme="light"] .typing-role {
+  color: #00a8bd;
+}
+
+[data-theme="light"] .cursor {
+  background: #00a8bd;
+}
+
+/* DESCRIPTION */
+[data-theme="light"] .hero-desc {
+  color: #4b6b73;
+}
+
+/* BUTTONS */
+[data-theme="light"] .btn-primary {
+  background: linear-gradient(135deg, #00eaff, #00bcd1);
+  color: #00373c;
+  box-shadow: 0 0 18px #00eaff55;
+}
+
+[data-theme="light"] .btn-outline {
+  border-color: #00a8bd;
+  color: #00a8bd;
+}
+
+[data-theme="light"] .btn-outline:hover {
+  background: rgba(0, 168, 189, 0.08);
+}
+
+/* HERO IMAGE */
+[data-theme="light"] .hero-visual img {
+  filter: drop-shadow(0 0 28px rgba(0, 168, 189, 0.35));
+}
+
+/* GLOW UNDER IMAGE */
+[data-theme="light"] .hero-visual::after {
+  background: rgba(0, 168, 189, 0.45);
+}

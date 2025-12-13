@@ -1,0 +1,382 @@
+/* ============================================================
+   PROJECTS SECTION SHELL
+============================================================ */
+.projects-section {
+  padding: 80px 0 90px;
+  background: radial-gradient(circle at 50% 0%, #050b12 0, #02060b 55%);
+}
+
+.projects-heading {
+  font-size: clamp(2rem, 3vw, 2.4rem);
+  font-weight: 600;
+  text-align: center;
+  color: #e9f9ff;
+  margin-bottom: 10px;
+}
+
+.projects-heading span {
+  color: #7ff6ff;
+}
+
+.projects-subtitle {
+  text-align: center;
+  color: #99b7c3;
+  font-size: 0.95rem;
+  margin-bottom: 40px;
+}
+
+/* ============================================================
+   3D PIN CARD
+============================================================ */
+.pin-group {
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pin-group:hover {
+  transform: translateY(-6px);
+}
+
+/* 3D wrapper */
+.pin-inner-wrapper {
+  position: relative;
+  perspective: 1200px;
+}
+
+/* Card */
+.pin-card {
+  position: relative;
+  padding: 18px 18px 20px;
+  border-radius: 20px;
+  background: radial-gradient(circle at 0 0, rgba(0, 234, 255, 0.12), transparent 60%),
+              rgba(12, 16, 22, 0.96);
+  border: 1px solid rgba(0, 255, 255, 0.10);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.75),
+    0 0 18px rgba(0, 255, 255, 0.12);
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.pin-group:hover .pin-card {
+  border-color: rgba(0, 255, 255, 0.32);
+  box-shadow:
+    0 24px 55px rgba(0, 0, 0, 0.9),
+    0 0 26px rgba(0, 255, 255, 0.28);
+}
+
+/* Overlay extras are toned down */
+.pin-overlay {
+  pointer-events: none;
+}
+
+/* ============================================================
+   VISIT BUTTON
+============================================================ */
+.pin-visit-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.pin-visit-btn {
+  padding: 5px 14px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #bffcff;
+  border-radius: 999px;
+  background: rgba(8, 20, 26, 0.95);
+  border: 1px solid rgba(0, 255, 255, 0.35);
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.55);
+}
+
+/* ============================================================
+   ENHANCED STACKED IMAGES
+============================================================ */
+.project-content {
+  width: 100%;
+  height: 100%;
+}
+
+.project-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #05060a;
+  border: 1px solid #1f2937;
+  box-shadow: inset 0 0 12px rgba(0, 255, 255, 0.1);
+  margin-bottom: 16px;
+}
+
+.project-bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.project-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6) blur(1px);
+  transition: all 0.5s ease;
+}
+
+.project-main-img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 75%;
+  object-fit: cover;
+  z-index: 2;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.pin-group:hover .project-main-img {
+  transform: translateX(-50%) translateY(-8px) scale(1.05);
+  box-shadow: 0 30px 60px rgba(0, 255, 255, 0.3);
+}
+
+.pin-group:hover .project-bg-img {
+  transform: scale(1.1);
+  filter: brightness(0.4) blur(0.5px);
+}
+
+/* ============================================================
+   PROJECT CONTENT
+============================================================ */
+.project-title {
+  font-size: 1.05rem;
+  color: #e5e7eb;
+  margin-top: 12px;
+  text-align: left;
+}
+
+.project-desc {
+  color: #b9c2d0;
+  font-size: 0.87rem;
+  margin-top: 6px;
+  text-align: left;
+  line-height: 1.6;
+}
+
+/* Icons + source row */
+.project-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.project-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.project-icon-wrapper {
+  background: #0b1015;
+  padding: 7px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.18);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.project-icon-img {
+  font-size: 0.8rem;
+  color: #7ff6ff;
+}
+
+.project-source {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #7ff6ff;
+  text-decoration: none;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
+  transition: letter-spacing 0.25s ease, text-shadow 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.project-source:hover {
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px cyan;
+}
+
+/* ============================================================
+   LAYOUT
+============================================================ */
+.projects-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 26px;
+}
+
+.project-col {
+  width: 100%;
+  max-width: 360px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .projects-section {
+    padding: 60px 0 70px;
+  }
+  
+  .project-img-wrapper {
+    height: 200px;
+  }
+  
+  .project-main-img {
+    width: 85%;
+    height: 70%;
+  }
+}
+
+@media (max-width: 768px) {
+  .projects-grid {
+    gap: 20px;
+  }
+  
+  .project-col {
+    max-width: 320px;
+  }
+}
+/* ================= PROJECTS – LIGHT MODE ================= */
+
+[data-theme="light"] .projects-section {
+  background: radial-gradient(
+    circle at 50% 0%,
+    #f8ffff 0%,
+    #ffffff 55%
+  );
+}
+
+/* Headings */
+[data-theme="light"] .projects-heading {
+  color: #0c1c22;
+}
+
+[data-theme="light"] .projects-heading span {
+  color: #00a8bd;
+}
+
+[data-theme="light"] .projects-subtitle {
+  color: #4a666e;
+}
+
+/* ============================================================
+   CARD SHELL
+============================================================ */
+
+[data-theme="light"] .pin-card {
+  background:
+    radial-gradient(circle at 0 0, rgba(0, 168, 189, 0.18), transparent 60%),
+    rgba(255, 255, 255, 0.88);
+
+  border: 1px solid rgba(0, 168, 189, 0.25);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    0 0 20px rgba(0, 168, 189, 0.18);
+}
+
+[data-theme="light"] .pin-group:hover .pin-card {
+  border-color: rgba(0, 168, 189, 0.45);
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.12),
+    0 0 28px rgba(0, 168, 189, 0.35);
+}
+
+/* ============================================================
+   VISIT BUTTON
+============================================================ */
+
+[data-theme="light"] .pin-visit-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: #007f91;
+  border: 1px solid rgba(0, 168, 189, 0.5);
+  text-shadow: none;
+}
+
+/* ============================================================
+   IMAGE AREA
+============================================================ */
+
+[data-theme="light"] .project-img-wrapper {
+  background: #f9fbfc;
+  border: 1px solid #d8edf2;
+  box-shadow: inset 0 0 12px rgba(0, 168, 189, 0.15);
+}
+
+[data-theme="light"] .project-bg-img {
+  filter: brightness(0.9) blur(0.6px);
+}
+
+[data-theme="light"] .pin-group:hover .project-bg-img {
+  filter: brightness(0.75) blur(0.4px);
+}
+
+[data-theme="light"] .project-main-img {
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="light"] .pin-group:hover .project-main-img {
+  box-shadow: 0 30px 60px rgba(0, 168, 189, 0.35);
+}
+
+/* ============================================================
+   TEXT CONTENT
+============================================================ */
+
+[data-theme="light"] .project-title {
+  color: #0c1c22;
+}
+
+[data-theme="light"] .project-desc {
+  color: #415a61;
+}
+
+/* ============================================================
+   FOOTER ICONS + SOURCE
+============================================================ */
+
+[data-theme="light"] .project-icon-wrapper {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 168, 189, 0.45);
+  box-shadow: 0 0 10px rgba(0, 168, 189, 0.22);
+}
+
+[data-theme="light"] .project-icon-img {
+  color: #00a8bd;
+}
+
+[data-theme="light"] .project-source {
+  color: #008b9a;
+  text-shadow: none;
+}
+
+[data-theme="light"] .project-source:hover {
+  text-shadow: 0 0 8px rgba(0, 168, 189, 0.6);
+}

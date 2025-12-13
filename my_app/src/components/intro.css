@@ -1,0 +1,33 @@
+/* intro.css - Same as before */
+.intro-wrapper {
+  position: fixed; inset: 0;
+  background: radial-gradient(circle at center, #041c22, #020b10);
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  z-index: 9999; overflow: hidden; gap: 12px;
+}
+
+[data-theme="light"] .intro-wrapper {
+  background: radial-gradient(circle at center, #e6f7fa, #ffffff);
+}
+
+.intro-mark {
+  width: min(30vw, 190px);
+  filter: drop-shadow(0 0 20px rgba(91,231,255,0.5)) 
+          drop-shadow(0 0 35px rgba(0,110,140,0.4));
+}
+
+.intro-label {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.88rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: #7ac7d6;
+}
+
+[data-theme="light"] .intro-label { color: #4b6b73; }
+
+.intro-wrapper::after {
+  content: ""; position: absolute; inset: 0;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='100' height='100' filter='url(%23n)' opacity='0.03'/></svg>");
+  pointer-events: none;
+}
