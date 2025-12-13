@@ -46,7 +46,7 @@ export default function Chatbot() {
     setLoading(true);
 
     try {
-      const res = await axios.post("https://mpraharshitha.onrender.com/api/assistant", {
+      const res = await axios.post("https://portfolio2025-xdaz.onrender.com/api/assistant", {
         question: input,
       });
       setMessages((p) => [...p, { sender: "bot", text: res.data.answer }]);
