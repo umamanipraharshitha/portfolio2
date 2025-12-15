@@ -4,15 +4,17 @@ import Fimg from "./assets/f.jpg";
 import limg from "./assets/l.png";
 import bimg from "./assets/ba.jpg";
 import timg from "./assets/t.png";
+import ai from "./assets/ai.png";
 
 export default function Skills() {
   const [index, setIndex] = useState(0);
 
   const slides = [
     { title: "Languages", desc: "C • Java • Python", img: limg },
-    { title: "Frontend", desc: "HTML • CSS • JavaScript • React • Bootstrap", img: Fimg },
-    { title: "Backend", desc: "Node.js • Express.js • SQL • Firebase • MongoDB • API Integration", img: bimg },
-    { title: "Tools", desc: "Git • Docker • Firebase • Cloud Services", img: timg },
+    { title: "Frontend", desc: "HTML • CSS • JavaScript • React • Bootstrap • Fluter ", img: Fimg },
+    { title: "Backend", desc: "Node.js • Express.js • Flask • SQL • Firebase • MongoDB • API Integration", img: bimg },
+    { title: "AI (Currenly exploing)", desc: " RAG systems • Automaion & Pipeline building • AI powered web applications", img: ai },
+     { title: "Tools", desc: "Git • Docker • Firebase • Cloud Services", img: timg },
   ];
 
   const goNext = () => setIndex((prev) => (prev + 1) % slides.length);
@@ -48,3 +50,4 @@ export default function Skills() {
     </section>
   );
 }
+
