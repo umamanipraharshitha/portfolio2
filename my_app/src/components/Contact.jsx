@@ -110,17 +110,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="contact-item">
-              <div className="contact-icon-wrapper">
-                <FaPhone className="contact-icon" />
-              </div>
-              <div>
-                <h3>Phone</h3>
-                <a href="tel:+918374675522" className="contact-link">
-                  +91 8374675522
-                </a>
-              </div>
-            </div>
+            
 
             <div className="contact-item">
               <div className="contact-icon-wrapper">
