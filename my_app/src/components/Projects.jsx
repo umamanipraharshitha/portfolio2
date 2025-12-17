@@ -87,7 +87,7 @@ const projects = [
   id: 4,
   title: "WhatsApp-based AI Health Assistant",
   des: "AI-powered WhatsApp assistant for medication reminders and health Q/A using RAG, enabling users to schedule, list, and cancel reminders via natural language.",
-  sourceCode: "https://github.com/your-username/whatsapp-ai-health-assistant",
+  sourceCode: "https://github.com/umamanipraharshitha/whatsapp_ai_reminders",
   icons: [SiFlutter, SiFirebase],
 
   img: h,
