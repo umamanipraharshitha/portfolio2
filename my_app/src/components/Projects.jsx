@@ -5,6 +5,7 @@ import "./Projects.css";
 import rimg from "./assets/r.jpg";
 import iimg from "./assets/i.jpg";
 import cimg from "./assets/c.jpg";
+import h from "./assets/ha.png";
 
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -80,7 +81,16 @@ const projects = [
     icons: [FaReact, FaNodeJs],
     img: cimg,
   },
-];
+
+{
+  id: 4,
+  title: "WhatsApp-based AI Health Assistant",
+  des: "AI-powered WhatsApp assistant for medication reminders and health Q/A using RAG, enabling users to schedule, list, and cancel reminders via natural language.",
+  sourceCode: "https://github.com/your-username/whatsapp-ai-health-assistant",
+  icons: [FaWhatsapp, FaNodeJs, FaReact],
+  img: h,
+},
+  ];
 
 /* -------------------- PROJECTS SECTION -------------------- */
 export const Projects = () => {
