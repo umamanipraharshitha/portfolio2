@@ -380,3 +380,51 @@
 [data-theme="light"] .project-source:hover {
   text-shadow: 0 0 8px rgba(0, 168, 189, 0.6);
 }
+
+/* ============================================================
+   LAYOUT – CENTERED, TIGHT, PADDED
+============================================================ */
+
+.projects-section {
+  padding: 80px 24px 90px; /* 👈 LEFT & RIGHT padding CONTROLLED */
+}
+
+/* Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px; /* 👈 SMALL distance between cards */
+  max-width: 1140px; /* 👈 keeps grid tight & centered */
+  margin: 0 auto; /* 👈 CENTER alignment */
+  justify-items: center;
+}
+
+/* Card column */
+.project-col {
+  width: 100%;
+  max-width: 350px; /* 👈 slightly tighter */
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 760px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .projects-section {
+    padding: 60px 16px 70px; 
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    max-width: 380px;
+    gap: 16px;
+  }
+}
+
