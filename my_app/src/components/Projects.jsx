@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaPython, FaReact, FaNodeJs, FaLocationArrow } from "react-icons/fa";
 import "./Projects.css";
+import { SiFlutter, SiFirebase } from "react-icons/si";
 
 import rimg from "./assets/r.jpg";
 import iimg from "./assets/i.jpg";
@@ -87,7 +88,8 @@ const projects = [
   title: "WhatsApp-based AI Health Assistant",
   des: "AI-powered WhatsApp assistant for medication reminders and health Q/A using RAG, enabling users to schedule, list, and cancel reminders via natural language.",
   sourceCode: "https://github.com/your-username/whatsapp-ai-health-assistant",
-  icons: [FaWhatsapp, FaNodeJs, FaReact],
+  icons: [SiFlutter, SiFirebase],
+
   img: h,
 },
   ];
