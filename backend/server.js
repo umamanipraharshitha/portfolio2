@@ -10,16 +10,15 @@ const axios = require("axios"); // GitHub fetch
 // ✅ Stable pdf-parse import
 const pdfParseLib = require("pdf-parse");
 const pdfParse =
-  typeof pdfParseLib === "function"
-    ? pdfParseLib
-    : pdfParseLib.default || pdfParseLib.pdfParse;
+typeof pdfParseLib === "function"
+? pdfParseLib
+: pdfParseLib.default || pdfParseLib.pdfParse;
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 /* ================= CONFIG ================= */
 const PORT = 5000;
 const RESUME_PATH = path.join(process.cwd(), "public", "resume.pdf");
-
 
 const LINKEDIN_CONTENT = "LinkedIn summary: ...";
 
@@ -36,68 +35,52 @@ let cachedGithubSummary = null;
 
 /* ================= READ PDF (CACHED) ================= */
 async function getResumeText() {
-  if (cachedResumeText) return cachedResumeText;
+if (cachedResumeText) return cachedResumeText;
 
-  const buffer = await fs.readFile(RESUME_PATH);
-  const data = await pdfParse(buffer);
+const buffer = await fs.readFile(RESUME_PATH);
+const data = await pdfParse(buffer);
 
-  cachedResumeText = data.text;
-  return cachedResumeText;
+cachedResumeText = data.text;
+return cachedResumeText;
 }
 
 /* ================= FETCH GITHUB SUMMARY WITH TOKEN + CACHE ================= */
 async function fetchGithubSummary(username) {
-  if (cachedGithubSummary) return cachedGithubSummary;
+if (cachedGithubSummary) return cachedGithubSummary;
 
-  try {
-    const headers = {
-      Authorization: `token ${process.env.GITHUB_TOKEN}`,
-      Accept: "application/vnd.github.v3+json",
-    };
+try {
+const response = await axios.get(
+https://api.github.com/users/${username}/repos?per_page=100,
+{
+headers: {
+Authorization: token ${process.env.GITHUB_TOKEN}, // token from .env
+},
+}
+);
 
-    const repoRes = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=10`,
-      { headers }
-    );
+const repos = response.data;  
+if (!repos || repos.length === 0) return "No GitHub projects found.";  
 
-    let githubText = "";
+const totalRepos = repos.length;  
+const projectList = repos.map((repo) => `• ${repo.name}`).join("\n");  
 
-    for (const repo of repoRes.data) {
-      githubText += `\n\nPROJECT: ${repo.name}\n`;
+cachedGithubSummary = `GitHub Projects (${totalRepos} public/private repos):\n${projectList}`;  
+return cachedGithubSummary;
 
-      try {
-        const readmeRes = await axios.get(
-          `https://api.github.com/repos/${username}/${repo.name}/readme`,
-          { headers }
-        );
-
-        const readmeContent = Buffer.from(
-          readmeRes.data.content,
-          "base64"
-        ).toString("utf-8");
-
-        githubText += `README:\n${readmeContent.slice(0, 3000)}\n`;
-      } catch {
-        githubText += "README: Not available\n";
-      }
-    }
-
-    cachedGithubSummary = githubText;
-    return githubText;
-  } catch (err) {
-    console.error("GitHub fetch error:", err.message);
-    return "Could not fetch GitHub content.";
-  }
+} catch (err) {
+console.error("GitHub fetch error:", err.message);
+return "Could not fetch GitHub projects.";
+}
 }
 
 /* ================= CONTEXT BUILDER ================= */
 async function buildContextWithGithub(resumeText, githubUsername) {
-  const MAX_CHARS = 12000;
-  const trimmedResume = resumeText.slice(0, MAX_CHARS);
+const MAX_CHARS = 12000;
+const trimmedResume = resumeText.slice(0, MAX_CHARS);
 
-  const githubSummary = await fetchGithubSummary(githubUsername);
+const githubSummary = await fetchGithubSummary(githubUsername);
 
-  return `
+return `
 RESUME:
 ${trimmedResume}
 
@@ -111,11 +94,11 @@ ${LINKEDIN_CONTENT}
 
 /* ================= GEMINI ================= */
 async function askAssistant(question, context) {
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash", // Replace with your valid model
-  });
+const model = genAI.getGenerativeModel({
+model: "gemini-2.5-flash", // Replace with your valid model
+});
 
-  const prompt = `
+const prompt = `
 You are an AI assistant for Praharshitha's portfolio.
 Answer concisely and professionally using ONLY the provided context.
 
@@ -124,50 +107,50 @@ ${context}
 
 Question:
 ${question}
-  `;
+`;
 
-  const result = await model.generateContent(prompt);
+const result = await model.generateContent(prompt);
 
-  // Format bullets nicely if Gemini uses "\n*"
-  return result.response.text().replace(/\n\*/g, "\n•");
+// Format bullets nicely if Gemini uses "\n*"
+return result.response.text().replace(/\n*/g, "\n•");
 }
 
 /* ================= API ================= */
 app.post("/api/assistant", async (req, res) => {
-  try {
-    const { question } = req.body;
+try {
+const { question } = req.body;
 
-    if (!question) {
-      return res.status(400).json({ error: "Question is required" });
-    }
+if (!question) {  
+  return res.status(400).json({ error: "Question is required" });  
+}  
 
-    const resumeText = await getResumeText();
-    const context = await buildContextWithGithub(resumeText, "umamanipraharshitha");
+const resumeText = await getResumeText();  
+const context = await buildContextWithGithub(resumeText, "umamanipraharshitha");  
 
-    const answer = await askAssistant(question, context);
+const answer = await askAssistant(question, context);  
 
-    res.json({ answer });
-  } catch (err) {
-    console.error("Assistant Error:", err);
-    res.status(500).json({ error: "Assistant failed" });
-  }
+res.json({ answer });
+
+} catch (err) {
+console.error("Assistant Error:", err);
+res.status(500).json({ error: "Assistant failed" });
+}
 });
 /* ================= HEALTH CHECK ================= */
 app.get("/api/status", (req, res) => {
-  try {
-    res.json({
-      status: "ok",
-      message: "AI Assistant backend is running",
-      cachedResume: cachedResumeText ? true : false,
-      cachedGithub: cachedGithubSummary ? true : false,
-    });
-  } catch (err) {
-    res.status(500).json({ status: "error", message: "Server check failed" });
-  }
+try {
+res.json({
+status: "ok",
+message: "AI Assistant backend is running",
+cachedResume: cachedResumeText ? true : false,
+cachedGithub: cachedGithubSummary ? true : false,
 });
-
+} catch (err) {
+res.status(500).json({ status: "error", message: "Server check failed" });
+}
+});
 
 /* ================= START ================= */
 app.listen(PORT, () => {
-  console.log(`🚀 AI Assistant running at http://localhost:${PORT}`);
+console.log(🚀 AI Assistant running at http://localhost:${PORT});
 });
