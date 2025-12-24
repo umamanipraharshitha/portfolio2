@@ -246,6 +246,7 @@ res.status(500).json({ status: "error", message: "Server check failed" });
 
 app.listen(PORT, () => {
 
-console.log(🚀 AI Assistant running at http://localhost:${PORT});
+console.log(`AI Assistant running at http://localhost:${PORT}`);
+
 
 }); 
