@@ -26,7 +26,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const PORT = 5000;
 
-const RESUME_PATH = "C:/Users/mprah/reactfolio/new/my_app/public/resume.pdf";
+const RESUME_PATH = "https://github.com/umamanipraharshitha/portfolio2/blob/main/my_app/public/resume.pdf";
 
 const LINKEDIN_CONTENT = "LinkedIn summary: ...";
 
