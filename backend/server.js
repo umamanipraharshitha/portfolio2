@@ -50,26 +50,43 @@ async function fetchGithubSummary(username) {
   if (cachedGithubSummary) return cachedGithubSummary;
 
   try {
-    const response = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=100`,
-      {
-        headers: {
-          Authorization: `token ${process.env.GITHUB_TOKEN}`, // token from .env
-        },
-      }
+    const headers = {
+      Authorization: `token ${process.env.GITHUB_TOKEN}`,
+      Accept: "application/vnd.github.v3+json",
+    };
+
+    const repoRes = await axios.get(
+      `https://api.github.com/users/${username}/repos?per_page=10`,
+      { headers }
     );
 
-    const repos = response.data;
-    if (!repos || repos.length === 0) return "No GitHub projects found.";
+    let githubText = "";
 
-    const totalRepos = repos.length;
-    const projectList = repos.map((repo) => `• ${repo.name}`).join("\n");
+    for (const repo of repoRes.data) {
+      githubText += `\n\nPROJECT: ${repo.name}\n`;
 
-    cachedGithubSummary = `GitHub Projects (${totalRepos} public/private repos):\n${projectList}`;
-    return cachedGithubSummary;
+      try {
+        const readmeRes = await axios.get(
+          `https://api.github.com/repos/${username}/${repo.name}/readme`,
+          { headers }
+        );
+
+        const readmeContent = Buffer.from(
+          readmeRes.data.content,
+          "base64"
+        ).toString("utf-8");
+
+        githubText += `README:\n${readmeContent.slice(0, 3000)}\n`;
+      } catch {
+        githubText += "README: Not available\n";
+      }
+    }
+
+    cachedGithubSummary = githubText;
+    return githubText;
   } catch (err) {
     console.error("GitHub fetch error:", err.message);
-    return "Could not fetch GitHub projects.";
+    return "Could not fetch GitHub content.";
   }
 }
 
