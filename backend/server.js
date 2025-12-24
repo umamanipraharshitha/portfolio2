@@ -55,14 +55,31 @@ async function fetchGithubSummary(username) {
       Accept: "application/vnd.github.v3+json",
     };
 
-    const repoRes = await axios.get(
-      `https://api.github.com/users/${username}/repos?per_page=10`,
-      { headers }
-    );
-
+    let page = 1;
+    let allRepos = [];
     let githubText = "";
 
-    for (const repo of repoRes.data) {
+    // 🔁 Fetch all repos using pagination
+    while (true) {
+      const repoRes = await axios.get(
+        `https://api.github.com/users/${username}/repos`,
+        {
+          headers,
+          params: {
+            per_page: 100,
+            page: page,
+          },
+        }
+      );
+
+      if (repoRes.data.length === 0) break;
+
+      allRepos.push(...repoRes.data);
+      page++;
+    }
+
+    // 🔍 Loop through ALL repositories
+    for (const repo of allRepos) {
       githubText += `\n\nPROJECT: ${repo.name}\n`;
 
       try {
@@ -76,6 +93,7 @@ async function fetchGithubSummary(username) {
           "base64"
         ).toString("utf-8");
 
+        // limit README size to avoid token explosion
         githubText += `README:\n${readmeContent.slice(0, 3000)}\n`;
       } catch {
         githubText += "README: Not available\n";
@@ -84,11 +102,13 @@ async function fetchGithubSummary(username) {
 
     cachedGithubSummary = githubText;
     return githubText;
+
   } catch (err) {
     console.error("GitHub fetch error:", err.message);
     return "Could not fetch GitHub content.";
   }
 }
+
 
 /* ================= CONTEXT BUILDER ================= */
 async function buildContextWithGithub(resumeText, githubUsername) {
