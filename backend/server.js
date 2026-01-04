@@ -130,9 +130,9 @@ ${LINKEDIN_CONTENT}
 }
 
 /* ================= GEMINI ================= */
-async function askAssistant(question, context) {
+async function askAssistant(question, context, res) {
   const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash", // Replace with your valid model
+    model: "gemini-2.5-flash",
   });
 
   const prompt = `
@@ -146,10 +146,17 @@ Question:
 ${question}
   `;
 
-  const result = await model.generateContent(prompt);
+  const stream = await model.generateContentStream(prompt);
 
-  // Format bullets nicely if Gemini uses "\n*"
-  return result.response.text().replace(/\n\*/g, "\n•");
+  for await (const chunk of stream.stream) {
+    const text = chunk.text();
+    if (text) {
+      res.write(`data: ${text.replace(/\n\*/g, "\n•")}\n\n`);
+    }
+  }
+
+  res.write("data: [DONE]\n\n");
+  res.end();
 }
 
 /* ================= API ================= */
@@ -157,19 +164,22 @@ app.post("/api/assistant", async (req, res) => {
   try {
     const { question } = req.body;
 
-    if (!question) {
-      return res.status(400).json({ error: "Question is required" });
-    }
+    if (!question) return res.status(400).end();
+
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
 
     const resumeText = await getResumeText();
-    const context = await buildContextWithGithub(resumeText, "umamanipraharshitha");
+    const context = await buildContextWithGithub(
+      resumeText,
+      "umamanipraharshitha"
+    );
 
-    const answer = await askAssistant(question, context);
-
-    res.json({ answer });
+    await askAssistant(question, context, res);
   } catch (err) {
     console.error("Assistant Error:", err);
-    res.status(500).json({ error: "Assistant failed" });
+    res.end();
   }
 });
 /* ================= HEALTH CHECK ================= */
