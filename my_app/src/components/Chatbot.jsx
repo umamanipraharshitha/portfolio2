@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { FaRobot, FaPaperPlane, FaArrowDown } from "react-icons/fa";
 import "./Chatbot.css";
 
@@ -40,22 +39,57 @@ export default function Chatbot() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
+
     const userMsg = { sender: "user", text: input };
     setMessages((p) => [...p, userMsg]);
     setInput("");
     setLoading(true);
 
+    setMessages((p) => [...p, { sender: "bot", text: "" }]);
+
     try {
-      const res = await axios.post("https://portfolio2025-xdaz-4auz.onrender.com/api/assistant", {
-        question: input,
-      });
-      setMessages((p) => [...p, { sender: "bot", text: res.data.answer }]);
+      const response = await fetch(
+        "https://portfolio2025-xdaz-4auz.onrender.com/api/assistant",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: userMsg.text }),
+        }
+      );
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let botText = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split("\n");
+
+        for (let line of lines) {
+          if (line.startsWith("data: ")) {
+            const text = line.replace("data: ", "");
+            if (text === "[DONE]") {
+              setLoading(false);
+              return;
+            }
+
+            botText += text;
+            setMessages((prev) => {
+              const copy = [...prev];
+              copy[copy.length - 1] = { sender: "bot", text: botText };
+              return copy;
+            });
+          }
+        }
+      }
     } catch {
       setMessages((p) => [
         ...p,
         { sender: "bot", text: "Unable to reach AI assistant." },
       ]);
-    } finally {
       setLoading(false);
     }
   };
@@ -83,7 +117,6 @@ export default function Chatbot() {
               <span>AI Assistant</span>
               <small>Online • Ready to help</small>
             </div>
-            {/* Close/minimize arrow */}
             <div
               className="close-chat"
               onClick={() => setOpen(false)}
@@ -147,4 +180,4 @@ export default function Chatbot() {
       )}
     </div>
   );
-}
+            }
